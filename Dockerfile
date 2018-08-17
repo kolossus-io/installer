@@ -1,25 +1,16 @@
 # Kolossus Installer
 #
-# To build:
-# docker build -t kolossus-installer:1.8.4 .
-#
-# To run:
-# - Set ENV variables
-# - Mount /installer/platforms/aws/backend.tf.json
-# - Mount /user.tfvars.json
-# - Mount /output
-# - Specify a command {start,resize,destroy}
-#
 # References:
-# https://releases.tectonic.com/releases/tectonic_1.8.4-tectonic.2.zip
 # https://coreos.com/tectonic/docs/latest/install/aws/aws-terraform.html
 
 FROM debian:stable-slim
 
-LABEL maintainer="Ben Cessa <ben@kolossus.io>"
+ARG VERSION_TAG=0.2.0
+ARG TERRAFORM_VER=0.11.8
+ARG TECTONIC_INSTALLER
 
-ARG TERRAFORM_VER=0.11.1
-ARG TECTONIC_INSTALLER=1.8.4-tectonic.2
+LABEL maintainer="Ben Cessa <ben@kolossus.io>"
+LABEL version=${VERSION_TAG}
 
 COPY init.sh /init
 COPY kolossus.tfvars.json /kolossus.tfvars.json
@@ -43,6 +34,9 @@ RUN \
   mv tectonic_${TECTONIC_INSTALLER} installer && \
   rm tectonic_${TECTONIC_INSTALLER}.zip
 
+ENV VERSION_TAG ${VERSION_TAG}
+ENV TERRAFORM_VER ${TERRAFORM_VER}
+ENV TECTONIC_INSTALLER ${TECTONIC_INSTALLER}
 ENV AWS_ACCESS_KEY_ID ""
 ENV AWS_SECRET_ACCESS_KEY ""
 ENV AWS_REGION ""

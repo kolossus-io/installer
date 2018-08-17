@@ -21,6 +21,12 @@ function destroy {
   terraform destroy -force ${VAR_FILES} installer/platforms/aws
 }
 
+function version {
+  echo Version: ${VERSION_TAG}
+  echo Terraform: ${TERRAFORM_VER}
+  echo Tectonic Installer: ${TECTONIC_INSTALLER}
+}
+
 case "$1" in
   start)
     start
@@ -30,5 +36,8 @@ case "$1" in
     ;;
   destroy)
     destroy
+    ;;
+  version)
+    version
     ;;
 esac
