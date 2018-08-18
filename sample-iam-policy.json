@@ -12,20 +12,38 @@
       "Action": ["s3:ListBucket"],
       "Effect": "Allow",
       "Resource": ["arn:aws:s3:::io.kolossus"],
-      "Condition":{"StringEquals":{"s3:prefix":["", "clusters"],"s3:delimiter":["/"]}}
+      "Condition": {
+        "StringEquals": {
+          "s3:prefix": ["", "clusters"],
+          "s3:delimiter": ["/"]
+        }
+      }
     },
     {
       "Sid": "AllowListingOfUserFolder",
       "Action": ["s3:ListBucket"],
       "Effect": "Allow",
       "Resource": ["arn:aws:s3:::io.kolossus"],
-      "Condition":{"StringLike":{"s3:prefix":["clusters/*"]}}
+      "Condition": {
+        "StringLike": {
+          "s3:prefix": ["clusters/*"]
+        }
+      }
     },
     {
       "Sid": "AllowAllS3ActionsInUserFolder",
       "Effect": "Allow",
       "Action": ["s3:*"],
       "Resource": ["arn:aws:s3:::io.kolossus/clusters/*"]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:GetItem",
+        "dynamodb:PutItem",
+        "dynamodb:DeleteItem"
+      ],
+      "Resource": "arn:aws:dynamodb:*:*:table/kolossus"
     }
   ]
 }
